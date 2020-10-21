@@ -26,5 +26,7 @@ You may want to change `.yml` files for your experiments (at least, you should c
 You can check out `notebooks/validation.ipynb` to see custom 
 validation pipeline + `IoU` & `Dice` metrics on validation dataset
 
-#####HOWTO: infer
+##### HOWTO: infer
 Check `notebooks/example_inference.ipynb`
+
+Check `notebooks/mil_infer.ipynb` for details, how to generate rle_predictions and html page
