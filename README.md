@@ -20,6 +20,8 @@ Simply `python train.py -c <path_to_experiment_configs> -t <path_to_trainer_conf
 
 For example `python train.py -c params/pan_eff_net_b0.yml -t params/trainer.yml`
 
+You can monitor your experiments via tensorboard, `tensorboard --logdir=<./logs/lightning_logs> --port=<6006> --host=<0.0.0.0>`
+
 You may want to change `.yml` files for your experiments (at least, you should check `trainer` file)
 
 ##### 3) Results
