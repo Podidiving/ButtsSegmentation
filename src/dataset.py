@@ -88,35 +88,37 @@ def create_transforms_from_configs(config: Union[Dict, None]) -> Callable:
     if config is not None:
         apply_rescale = False
         image_size = None
+        valid_resize = False
         if config.get("RescaleTransforms", None) is not None:
             apply_rescale = config.pop("RescaleTransforms")
             assert (
                 config.get("ImageSize", None) is not None
             ), "ImageSize must be specified"
             image_size = config.pop("ImageSize")
+            valid_resize = config.get("ValidResize", False)
         for k, v in config.items():
             params = v or dict()
             transforms.append(A.__dict__[k](**params))
         if apply_rescale:
             pre_size = int(image_size * 1.5)
-
-            random_crop = A.Compose(
-                [
-                    A.SmallestMaxSize(pre_size, p=1),
-                    A.RandomCrop(image_size, image_size, p=1),
-                ]
-            )
-
             rescale = A.Compose([A.Resize(image_size, image_size, p=1)])
+            if valid_resize:
+                result = [rescale]
+            else:
+                random_crop = A.Compose(
+                    [
+                        A.SmallestMaxSize(pre_size, p=1),
+                        A.RandomCrop(image_size, image_size, p=1),
+                    ]
+                )
+                random_crop_big = A.Compose(
+                    [
+                        A.LongestMaxSize(pre_size, p=1),
+                        A.RandomCrop(image_size, image_size, p=1),
+                    ]
+                )
 
-            random_crop_big = A.Compose(
-                [
-                    A.LongestMaxSize(pre_size, p=1),
-                    A.RandomCrop(image_size, image_size, p=1),
-                ]
-            )
-
-            # Converts the image to a square of size image_size x image_size
-            result = [A.OneOf([random_crop, rescale, random_crop_big], p=1)]
+                # Converts the image to a square of size image_size x image_size
+                result = [A.OneOf([random_crop, rescale, random_crop_big], p=1)]
             transforms = transforms + result
     return A.Compose(transforms)

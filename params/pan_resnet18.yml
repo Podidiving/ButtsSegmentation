@@ -24,7 +24,6 @@ transforms:
   val:
     RescaleTransforms: True  # check out create_transforms_from_configs @ dataset.py
     ImageSize: *image_size  # must be specified if RescaleTransforms is True
-    ValidResize: True  # if true, then only Resize transform applies
   train:
     RandomRotate90: null
     Cutout: null
