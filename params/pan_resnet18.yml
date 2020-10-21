@@ -1,15 +1,15 @@
 shared:
-  image_size: &image_size 512
+  image_size: &image_size 256
 
 model:
   name: PAN
   params:
-    encoder_name: efficientnet-b0
+    encoder_name: resnet18
     encoder_weights: imagenet
 
 loss:
-  dice_coef: 1.
-  iou_coef: 1.
+  dice_coef: 1.5
+  iou_coef: 0.9
   bce_coef: 0.9
 
 optimizer:
@@ -24,6 +24,7 @@ transforms:
   val:
     RescaleTransforms: True  # check out create_transforms_from_configs @ dataset.py
     ImageSize: *image_size  # must be specified if RescaleTransforms is True
+    ValidResize: True  # if true, then only Resize transform applies
   train:
     RandomRotate90: null
     Cutout: null
@@ -53,11 +54,11 @@ dataset:
 dataloader:
   train:
     params:
-      batch_size: 8
+      batch_size: 32
       num_workers: 9
       shuffle: True
   val:
     params:
-      batch_size: 16
+      batch_size: 64
       num_workers: 9
       shuffle: False
