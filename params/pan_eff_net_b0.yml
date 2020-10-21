@@ -1,0 +1,63 @@
+shared:
+  image_size: &image_size 512
+
+model:
+  name: PAN
+  params:
+    encoder_name: efficientnet-b0
+    encoder_weights: imagenet
+
+loss:
+  dice_coef: 1.
+  iou_coef: 1.
+  bce_coef: 0.9
+
+optimizer:
+  name: Adam
+  encoder_params:
+    lr: 0.0001
+    weight_decay: 0.00001
+  params:
+    lr: 0.001
+
+transforms:
+  val:
+    RescaleTransforms: True  # check out create_transforms_from_configs @ dataset.py
+    ImageSize: *image_size  # must be specified if RescaleTransforms is True
+  train:
+    RandomRotate90: null
+    Cutout: null
+    RandomBrightnessContrast:
+      brightness_limit: 0.2
+      contrast_limit: 0.2
+      p: 0.3
+    GridDistortion:
+      p: 0.3
+    HueSaturationValue:
+      p: 0.3
+    RescaleTransforms: True  # check out create_transforms_from_configs @ dataset.py
+    ImageSize: *image_size  # must be specified if RescaleTransforms is True
+
+dataset:
+  train:
+    root_path: data/cig_butts/train
+    images_folder: images
+    masks_folder: masks
+    to_tensor: True
+  val:
+    root_path: data/cig_butts/val
+    images_folder: images
+    masks_folder: masks
+    to_tensor: True
+
+dataloader:
+  train:
+    params:
+      batch_size: 8
+      num_workers: 9
+      shuffle: True
+  val:
+    params:
+      batch_size: 16
+      num_workers: 9
+      shuffle: False

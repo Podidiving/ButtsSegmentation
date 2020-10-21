@@ -1,0 +1,7 @@
+efficientnet-pytorch==0.6.3
+pytorch-lightning==0.9.0
+segmentation-models-pytorch==0.1.2
+torchvision==0.5.0
+albumentations==0.4.3
+safitty==1.3
+Pillow==6.2.2

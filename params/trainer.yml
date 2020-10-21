@@ -1,0 +1,5 @@
+distributed_backend: "ddp"
+gpus: "5, 6, 7"
+fast_dev_run: False
+early_stop_callback: True
+default_root_dir: ./logs
