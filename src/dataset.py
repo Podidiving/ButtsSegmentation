@@ -95,7 +95,8 @@ def create_transforms_from_configs(config: Union[Dict, None]) -> Callable:
                 config.get("ImageSize", None) is not None
             ), "ImageSize must be specified"
             image_size = config.pop("ImageSize")
-            valid_resize = config.get("ValidResize", False)
+            if config.get("ValidResize", None) is not None:
+                valid_resize = config.pop("ValidResize")
         for k, v in config.items():
             params = v or dict()
             transforms.append(A.__dict__[k](**params))
