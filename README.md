@@ -29,4 +29,4 @@ validation pipeline + `IoU` & `Dice` metrics on validation dataset
 ##### HOWTO: infer
 Check `notebooks/example_inference.ipynb`
 
-Check `notebooks/mil_infer.ipynb` for details, how to generate rle_predictions and html page
+Check `notebooks/mil_infer.ipynb` for details, how to generate rle_predictions and html page ([mil](http://machine-intelligence.ru/))
